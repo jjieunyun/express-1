@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //콜백함수 대신에 지금은 promise로 사용
+        //-> 이 함수를 다른 함수와 상관없이 비동기로 사용
+        function A(anum) {
+            return anum;
+        }
+
+        //콜백함수를 부르는 함수(매개변수로 함수를 갖는다)
+        function B(bFunc) {
+            //A함수가 실행되기 전에 반드시 log를 출력한다.
+            console.log('로그를 추가해서 출력할 수있습니다.')
+            return bFunc(100);
+        }
+
+        /*함수A를 매개변수로 갖는 함수B를 호출해서 함수A에 100이라는 인수를 주어 실행
+        return값 100이 실행된다
+        */
+        console.log(B(A));
+    </script>
+</body>
+</html>

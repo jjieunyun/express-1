@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Ajax실행</h1>
+    <h4>1. btndata.txt실행버튼</h4>
+    <button id="btn"> button </button>
+    <p id="print"> </p>
+
+    <a href="./data.txt">값가져오기</a>
+    <p> a태그를 통해서 들고오게 되면 전체를 서버에서 들고오게 됩니다</p>
+
+    <h4>2. data.json실행버튼</h4>
+    <button id="btnjson">json Button</button>
+    <p id="printjson"></p>
+    
+    <script>
+        //1. HTTP요청을 만들 수있는 객체생성
+        const req = new XMLHttpRequest();
+
+
+        //2. 서버에 요청하기
+        //http request method(GET, POST) 가져올 url설정
+        req.open("GET","./data.txt");
+        //요청 전송
+        req.send();
+
+        //3. 서버로 부터 응답확인
+        //응답확인 : req.response에서 확인
+        console.log(req.response);
+
+        /*
+        (1) readyState 프로퍼티
+        (2) status 프로퍼티
+        (3) onreadystatechange 프로퍼티
+        */
+        // req의 상태가 바뀔때마다 호출되는 메소드
+        /*
+        readyState : 0~4
+        0 : open메소드 호출 전
+        1 : open메소드 호출 후
+        2 : 보낸 요청에 대해 응답 헤더가 수신된 후
+        3 : 응답의 바디 부분이 수신중일때
+        4 : 모든 응답이 수신되었을때
+        */
+        req.onreadystatechange = function () {
+            console.log(this.readyState)
+            //응답번호 확인
+            console.log('응답번호 확인 :' +  this.status)
+            //모든응답이 수신되고 응답번호가 200일때 콘솔에 출려
+            if(this.readyState == 4 && this.status == 200) {
+                console.log(this.response)
+            }
+        }
+
+        //1. text형식 data를 가져오는 버튼 
+        //Dom에 이벤트를 붙이는 순서
+        //id혹은 class값을 찾아서 addEventListener('이벤트방식', 실행될 함수)
+        const btn = document.querySelector('#btn');
+        const printText = document.querySelector('#print')
+        btn.addEventListener('click', ()=> {
+        const btnreq = new XMLHttpRequest();
+        btnreq.onreadystatechange = function a () {
+            if (this.readyState ==4 && this.status == 200) {
+                            printText.innerHTML = this.response;
+            }
+            }
+            btnreq.open('GET', './btndata.txt');
+            btnreq.send();
+        })
+
+        //2. json으로 연결된 data가져오는 버튼 
+        const btnjson = document.querySelector('#btnjson');
+        const printjson = document.querySelector('#printjson')
+        btnjson.addEventListener('click', ()=> {
+        const btnjsonreq = new XMLHttpRequest();
+        btnjsonreq.onreadystatechange = function a () {
+            if (this.readyState ==4 && this.status == 200) {
+                //printjson.innerHTML = this.response;
+                //json형식으로 들고와도 string값으로 출력된다
+                //string형식은 객체 형식으로 출력할 수없음.
+                console.log("원래 형식 :" + typeof(this.response));
+
+                //JSON.parse로 형변환 -> .를 통해서 가져올 수있다.
+                const data = JSON.parse(this.response);
+                console.log("JSON.parse 형식 :" +typeof(data));
+
+                //JSON.parse를 통해서 만들어준 객체에 접근
+                printjson.innerHTML = data.memo;
+            }
+            }
+            btnjsonreq.open('GET', './data.json');
+            btnjsonreq.send();
+        })
+
+    </script>
+</body>
+
+</html>
