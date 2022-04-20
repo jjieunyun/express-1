@@ -32,7 +32,7 @@ app.listen(port, () => {
 })
 
 /*
-2. middle wea
+2. middle ware
 (1)남이만든 미들웨어 ; Third-party middlewear
 const bodyParser = require('body-parser'); -> API에서 요청받은 body 값을 파싱하는 역할
 const comporession = require('compression'); -> 캐시파일 압축된 방식으로 보내기

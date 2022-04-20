@@ -1,4 +1,4 @@
-//서버를 만들때는 아래와 같이 template로 사용하면된다
+//서버를 만들때는 아래와 같이 사용하면된다
 const express = require("express");
 
 const app = express();
